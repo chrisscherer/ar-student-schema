@@ -1,8 +1,15 @@
 require 'rake'
 require 'rspec/core/rake_task'
+require 'faker'
 require_relative 'db/config'
 require_relative 'lib/students_importer'
+require_relative 'app/models/teacher'
+require_relative 'app/models/student'
 
+desc "console"
+task "console" do
+  exec "irb -r./app.rb"
+end
 
 desc "create the database"
 task "db:create" do
@@ -26,6 +33,21 @@ end
 desc "populate the test database with sample data"
 task "db:populate" do
   StudentsImporter.import
+  Student.all.each { |student| student.update(teacher_id: rand(1..15))}
+end
+
+desc "populate the test database with sample teachers"
+task "db:populate_teachers" do
+  # Teacher.create(name: "Sally Smith",
+  #                phone: "123-123-1234",
+  #                email: "sally@gmail.com",
+  #                address: "123 sdlkaffhk")
+
+  10.times do Teacher.create(:name => Faker::Name.name,
+                             :phone => Faker::PhoneNumber.cell_phone,
+                             :email => Faker::Internet.email,
+                             :address => Faker::Address.street_address(include_secondary = false))
+  end
 end
 
 desc 'Retrieves the current schema version number'

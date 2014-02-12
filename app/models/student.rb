@@ -1,6 +1,8 @@
 require_relative '../../db/config'
 
 class Student < ActiveRecord::Base
+  belongs_to :teacher
+
   validates :email, uniqueness: true ,:format => { :with => /\A[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})\z/,
                          :message => "Invalid Email" }
   validate :older_than_three
