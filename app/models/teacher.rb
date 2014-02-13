@@ -1,7 +1,7 @@
 require_relative '../../db/config'
 
 class Teacher < ActiveRecord::Base
-  has_many :students
+  has_and_belongs_to_many :students
 
   validates :email, uniqueness: true ,:format => { :with => /\A[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})\z/,
                          :message => "Invalid Email" }

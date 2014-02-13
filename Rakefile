@@ -33,7 +33,9 @@ end
 desc "populate the test database with sample data"
 task "db:populate" do
   StudentsImporter.import
-  Student.all.each { |student| student.update(teacher_id: rand(1..15))}
+  Student.all.each { |student|
+     student.teachers << Teacher.all.sample
+     }
 end
 
 desc "populate the test database with sample teachers"
